@@ -7,8 +7,7 @@
 
 class Pipe {
 public:
-    Pipe(char, const std::string &, const sf::Vector2i &);
-    void initDirection(const std::string &);
+    Pipe(const char, const int, const sf::Vector2i &);
     void draw(sf::RenderWindow &);
     sf::Sprite getSprite() const;
     void setPosition(sf::Vector2f);
@@ -19,5 +18,7 @@ private:
     char m_pipeType;
     sf::Sprite m_sprite;
     std::array<bool, SIDES> m_direction;
-    void pipeType(const std::string &);
+
+    void initDirection(const int);
+    void pipeType(const char);
 };

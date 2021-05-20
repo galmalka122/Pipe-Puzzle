@@ -8,7 +8,7 @@
 class GameBoard {
 public:
     GameBoard();
-    void addPipe(char, const std::string &);
+    void addPipe(const char, const int);
     void draw(sf::RenderWindow &);
     void nextStage();
     void rotatePipe(const sf::Event &);

@@ -16,6 +16,7 @@ void GameController::run() {
             switch (event.type)
             {
                 case sf::Event::MouseButtonPressed:
+                    m_gameBoard.nextStage();
                     m_gameBoard.rotatePipe(event);
                     break;
 
@@ -27,7 +28,7 @@ void GameController::run() {
     }
 }
 //=============================================================================
-void GameController::draw(sf::RenderWindow &) {
+void GameController::draw(sf::RenderWindow & window) {
 
 }
 //=============================================================================

@@ -1,14 +1,36 @@
 #include "Pipe.h"
 
-Pipe::Pipe(char type, const std::string & direction, const sf::Vector2i & ratio) : m_pipeType(type){
+Pipe::Pipe(const char type, const int direction, const sf::Vector2i & ratio) : m_pipeType(type){
 
+    pipeType(type);
+    m_sprite.setOrigin(m_sprite.getGlobalBounds().width / 2,
+                       m_sprite.getGlobalBounds().height / 2);
+    m_sprite.setScale({BOARD_WIDTH / (m_sprite.getGlobalBounds().width * ratio.x),
+                       BOARD_HEIGHT / (m_sprite.getGlobalBounds().height * ratio.y)});
+    initDirection(direction);
+}
+//=============================================================================
+void Pipe::pipeType(const char type) {
     switch (type) {
         case SOURCE:
             m_sprite = Textures::texturesObject().getSprite(SOURCE_F);
             m_direction = SOURCE_SINK_DIRECTION;
             break;
-        case PIPE:
-            pipeType(direction);
+        case STRAIGHT:
+            m_sprite = Textures::texturesObject().getSprite(STRAIGHT_E);
+            m_direction = STRAIGHT_DIRECTION;
+            break;
+        case CURVED:
+            m_sprite = Textures::texturesObject().getSprite(CURVED_E);
+            m_direction = CURVED_DIRECTION;
+            break;
+        case T:
+            m_sprite = Textures::texturesObject().getSprite(T_E);
+            m_direction = T_DIRECTION;
+            break;
+        case PLUS:
+            m_sprite = Textures::texturesObject().getSprite(PLUS_E);
+            m_direction = PLUS_DIRECTION;
             break;
         case SINK:
             m_sprite = Textures::texturesObject().getSprite(SINK_E);
@@ -17,51 +39,14 @@ Pipe::Pipe(char type, const std::string & direction, const sf::Vector2i & ratio)
         default:
             throw std::domain_error("");
     }
-    m_sprite.setOrigin(m_sprite.getGlobalBounds().width / 2,
-                       m_sprite.getGlobalBounds().height / 2);
-    m_sprite.setScale({BOARD_WIDTH / (m_sprite.getGlobalBounds().width * ratio.x),
-                       BOARD_HEIGHT / (m_sprite.getGlobalBounds().height * ratio.y)});
-    initDirection(direction);
 }
 //=============================================================================
-void Pipe::pipeType(const std::string & direction) {
+void Pipe::initDirection(const int direction) {
 
-    auto type = PIPES.find(direction);
-
-    if(type == PIPES.end())
+    if(direction % DEGREE != 0)
         throw std::domain_error("");
 
-    if(type->second == STRAIGHT_HORIZONTAL_P || type->second == STRAIGHT_VERTICAL_P){
-        m_sprite = Textures::texturesObject().getSprite(STRAIGHT_E);
-        m_direction = STRAIGHT_DIRECTION;
-    }
-    else if(type->second == CURVED_UP_LEFT_P || type->second == CURVED_UP_RIGHT_P ||
-            type->second == CURVED_DOWN_LEFT_P || type->second == CURVED_DOWN_RIGHT_P){
-        m_sprite = Textures::texturesObject().getSprite(CURVED_E);
-        m_direction = CURVED_DIRECTION;
-    }
-    else if(type->second == T_UP_P || type->second == T_DOWN_P ||
-            type->second == T_LEFT_P || type->second == T_RIGHT_P){
-        m_sprite = Textures::texturesObject().getSprite(T_E);
-        m_direction = T_DIRECTION;
-    }
-    else if(type->second == PLUS_P){
-        m_sprite = Textures::texturesObject().getSprite(PLUS_E);
-        m_direction = PLUS_DIRECTION;
-    }
-}
-//=============================================================================
-void Pipe::initDirection(const std::string & direction) {
-
-    std::array<bool, SIDES> temp{};
-
-    for(auto i = 0; i < SIDES; ++i)
-        temp[i] = direction[i] == '1';
-
-
-    while(m_direction != temp){
-        rotateRight();
-    }
+    m_sprite.rotate(direction);
 }
 //=============================================================================
 void Pipe::draw(sf::RenderWindow & window) {
@@ -79,7 +64,7 @@ void Pipe::setPosition(sf::Vector2f position) {
 //=============================================================================
 void Pipe::rotateRight() {
     if(m_pipeType != SINK) {
-        m_sprite.rotate(90);
+        m_sprite.rotate(DEGREE);
 
         std::swap(m_direction[UP], m_direction[RIGHT]);
         std::swap(m_direction[DOWN], m_direction[LEFT]);
@@ -90,7 +75,7 @@ void Pipe::rotateRight() {
 void Pipe::rotateLeft() {
 
     if(m_pipeType != SINK)
-        m_sprite.rotate(-90);
+        m_sprite.rotate(-DEGREE);
 
     std::swap(m_direction[UP], m_direction[LEFT]);
     std::swap(m_direction[DOWN], m_direction[RIGHT]);

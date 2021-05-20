@@ -1,0 +1,6 @@
+﻿configure_file ("Stages.txt" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Source.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Sink.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Straight.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("Curved.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("T_Pipe.png" ${CMAKE_BINARY_DIR} COPYONLY)
