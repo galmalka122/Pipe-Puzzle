@@ -1,7 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <memory>
+
 #include "Macros.h"
+#include "FileError.h"
+
 
 class Textures {
 public:

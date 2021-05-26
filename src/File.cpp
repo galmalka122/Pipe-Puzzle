@@ -4,8 +4,7 @@ File::File(const std::string & fileName){
     auto file = std::fstream(fileName);
 
     if(!file)
-        throw std::domain_error("");
-        //FileError("File doe's not exist");
+        throw FileError(fileName + " is missing");
 
     readFile(file);
 
@@ -26,8 +25,23 @@ std::vector<std::string>::iterator File::end(){
     return m_fileContent.end();
 }
 //=============================================================================
-void File::next() {
-    ++m_iterator;
+std::vector<std::string>::const_iterator File::cbegin() const{
+    return m_fileContent.cbegin();
+}
+//=============================================================================
+std::vector<std::string>::const_iterator File::cend() const{
+    return m_fileContent.cend();
+}
+//=============================================================================
+std::vector<std::string>::const_iterator File::currentIter() const {
+    return m_iterator;
+}
+//=============================================================================
+void File::next(int offset) {
+    if (getLineIndex() + offset > m_fileContent.size())
+        m_iterator = m_fileContent.cend();
+    else
+        m_iterator += offset;
 }
 //=============================================================================
 void File::previous() {
@@ -40,8 +54,8 @@ bool File::eof() const {
 //=============================================================================
 std::string File::getLine(int offset) const{
 
-    /*if(getLineIndex() + offset > m_fileContent.size() || getLineIndex() - offset < 0)
-        throw FileError("Attempt to access an invalid location in the file");*/
+    if(getLineIndex() + offset > m_fileContent.size() || getLineIndex() - offset < 0)
+        throw FileError("Attempt to access an invalid location in the file");
 
     return *(m_iterator+offset);
 }
@@ -49,9 +63,6 @@ std::string File::getLine(int offset) const{
 int File::getLineIndex() const {
     return m_iterator - m_fileContent.begin();
 }
-
-
-
 //=============================================================================
 File &operator++(File & file) {
     file.next();
