@@ -1,6 +1,10 @@
 ﻿target_sources (Pipe PRIVATE "main.cpp"
         "GameController.cpp"
         "GameBoard.cpp"
+        "StageDetails.cpp"
         "Pipe.cpp"
         "Textures.cpp"
-        "File.cpp")
+        "Font.cpp"
+        "File.cpp"
+        "Graph.cpp"
+        "Sound.cpp")
