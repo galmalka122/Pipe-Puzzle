@@ -26,6 +26,7 @@ Design:
                    number of clicks that take to the player to solve the current stage.
 
 Files list:
+
     main.cpp - Plays the game and handle exceptions.
     GameController.h, GameController.cpp - A class that manage the game and
                                            controls the interaction between the objects in the game.
@@ -66,6 +67,7 @@ Stages:
     Between each two stages the user must leave one blank line.
 
 Main data structures and their role:
+
     using boardPosition = std::pair<int, int> - Indicates the indexes of each pipe in the game board.
     std::vector<std::vector<std::unique_ptr<Pipe>>> m_pipeSys - Holds all the pipes objects in each stage.
     std::vector<boardPosition> m_sources - Holds all the source in each stage.
