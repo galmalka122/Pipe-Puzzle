@@ -11,6 +11,7 @@ General Description:
     This program is an implementation of the game pipe.
 
 Game Instructions:
+
     The user needs to connect all the sinks to the water.
     The user can rotate each pipe (except the sinks) using the left and right click.
     Right click for rotate in -90 degree and left for rotate in 90 degree.
